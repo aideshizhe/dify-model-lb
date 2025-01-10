@@ -23,3 +23,27 @@ class FeatureService:
 
         return features
 ```
+
+```
+# API service
+api:
+build: ../api
+restart: always
+environment:
+# Use the shared environment variables.
+<<: *shared-api-worker-env
+# Startup mode, 'api' starts the API server.
+MODE: api
+depends_on:
+- db
+- redis
+volumes:
+# Mount the storage directory to the container, for storing user files.
+- ./volumes/app/storage:/app/api/storage
+networks:
+- ssrf_proxy_network
+- default
+
+给你参考，docker-compose文件修改下，然后重新build
+以后我在出个视频教下怎么部署
+```
